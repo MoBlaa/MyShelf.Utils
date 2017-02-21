@@ -1,0 +1,15 @@
+group 'org.myshelf'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.testng:testng:6.10'
+}
