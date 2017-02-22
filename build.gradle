@@ -2,14 +2,27 @@ group 'org.myshelf'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     jcenter()
     mavenCentral()
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'ch.raffael.pegdown-doclet:pegdown-doclet:1.2'
+    }
+}
+
+apply plugin: 'ch.raffael.pegdown-doclet'
+
 dependencies {
+    compile "org.apache.camel:camel-core:2.18.2"
     testCompile 'org.testng:testng:6.10'
 }
