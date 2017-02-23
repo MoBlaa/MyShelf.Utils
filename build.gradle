@@ -7,7 +7,6 @@ apply plugin: 'maven'
 sourceCompatibility = 1.8
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -22,7 +21,12 @@ buildscript {
 
 apply plugin: 'ch.raffael.pegdown-doclet'
 
+subprojects {
+
+}
+
 dependencies {
-    compile "org.apache.camel:camel-core:2.18.2"
+    compile 'org.slf4j:slf4j-simple:1.6.2'
     testCompile 'org.testng:testng:6.10'
+    testCompile project(':PluginTest')
 }
