@@ -5,5 +5,7 @@ Utility Repository for simple project management
 
 - [General utilities](src/main/java/org/myshelf/utils):
     Contains general utilities for manipulating Strings, etc.
-- [Property utilities](src/main/java/org/myshelf/properties):
+- [Property utilities](src/main/java/org/myshelf/utils/properties):
     Contains Utilities to enrich the standard Property management
+- [Plugin utilities](src/main/java/org/myshelf/plugins)
+    Contains plugin management classes wrapping the functionality of the ServiceLoader API
