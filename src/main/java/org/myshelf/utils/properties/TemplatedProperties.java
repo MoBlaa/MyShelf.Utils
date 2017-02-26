@@ -109,4 +109,10 @@ public class TemplatedProperties extends HashMap<String, String> {
         }
         return result;
     }
+
+    public Properties toProperties() {
+        Properties props = new Properties();
+        props.putAll(this);
+        return props;
+    }
 }
