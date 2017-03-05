@@ -1,5 +1,7 @@
 package org.myshelf.utils.properties;
 
+import com.sun.javafx.fxml.PropertyNotFoundException;
+
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -10,9 +12,14 @@ import java.util.regex.Pattern;
  */
 public class TemplatedProperties extends HashMap<String, String> {
 
-    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{(\\w+)}}");
-    private static final int PLACEHOLDER_START_LENGTH = 2;
-    private static final int PLACEHOLDER_END_LENGTH = 2;
+    final String MATCH_PATTERN_START;
+    final String MATCH_PATTERN_END;
+    private final Pattern PLACEHOLDER_PATTERN;
+
+    private static final String START_PATTERN_CONFIG_KEY = "templates.pattern.start";
+    private static final String END_PATTERN_CONFIG_KEY = "templates.pattern.end";
+    private static final String INCOMPLETE_TEMPLATE_PROPERTIES_MSSG =
+            "The System properties have to contain both or non of the templates.pattern keys";
 
     private final Hashtable<String, String> unresolved;
 
@@ -21,6 +28,21 @@ public class TemplatedProperties extends HashMap<String, String> {
         Properties props = System.getProperties();
         props.stringPropertyNames().forEach((key) -> super.put(key, String.valueOf(props.getProperty(key))));
         unresolved = new Hashtable<>();
+
+        if (this.containsKey(START_PATTERN_CONFIG_KEY)) {
+            if (this.containsKey(END_PATTERN_CONFIG_KEY)) {
+                this.MATCH_PATTERN_START = super.get(START_PATTERN_CONFIG_KEY);
+                this.MATCH_PATTERN_END = super.get(END_PATTERN_CONFIG_KEY);
+            } else {
+                throw new PropertyNotFoundException(INCOMPLETE_TEMPLATE_PROPERTIES_MSSG);
+            }
+        } else {
+            if (this.containsKey(END_PATTERN_CONFIG_KEY))
+                throw new PropertyNotFoundException(INCOMPLETE_TEMPLATE_PROPERTIES_MSSG);
+
+            Pattern.compile("\\{\\{(\\w+)}}");
+        }
+
     }
 
     public static TemplatedProperties load(InputStream in) throws IOException {

@@ -9,6 +9,16 @@ import static org.testng.Assert.*;
  * @author moblaa
  */
 public class StringUtilsTest {
+
+    @Test
+    public void testEscapePatternChars() throws Exception {
+        Assert.assertEquals(StringUtils.escapePatternChars("\\"), "\\\\");
+        Assert.assertEquals(StringUtils.escapePatternChars(""), "");
+        Assert.assertEquals(StringUtils.escapePatternChars("{"), "\\{");
+        Assert.assertEquals(StringUtils.escapePatternChars("\\\\{"), "\\\\{");
+        Assert.assertEquals(StringUtils.escapePatternChars("\\{"), "\\{");
+    }
+
     @Test
     public void testRepeat() throws Exception {
         Assert.assertEquals("HelloHello", StringUtils.repeat("Hello", 2));
