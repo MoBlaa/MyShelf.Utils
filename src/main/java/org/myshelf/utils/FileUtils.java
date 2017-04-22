@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
@@ -23,8 +26,10 @@ public final class FileUtils {
     }
 
     public static void copyRecursively(boolean overwrite,
-                                       @NotNull File sourceDirectory,
-                                       @NotNull File targetDirectory) throws IOException {
+                                       @NotNull URI sourceURL,
+                                       @NotNull URI targetURL) throws IOException, URISyntaxException {
+        File sourceDirectory = new File(sourceURL);
+        File targetDirectory = new File(targetURL);
         //Check for directories valid
         if (!sourceDirectory.exists() || !sourceDirectory.canRead())
             throw new IllegalArgumentException("Source directory doesn't exist or couldn't be read");
@@ -48,7 +53,7 @@ public final class FileUtils {
             String fileName = sourceFile.getName();
             File targetFile = new File(targetDirectory.getAbsolutePath() + File.separator + fileName);
             if (sourceFile.isDirectory()) {
-                FileUtils.copyRecursively(overwrite, sourceFile, targetFile);
+                FileUtils.copyRecursively(overwrite, sourceFile.toURI(), targetFile.toURI());
                 logger.debug("SUCCESS: Copied directory to <" + targetFile.getAbsolutePath() + ">");
             } else {
                 FileUtils.copy(overwrite, sourceFile, targetFile);

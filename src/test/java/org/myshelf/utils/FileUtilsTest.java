@@ -36,7 +36,7 @@ public class FileUtilsTest {
 
         Assert.assertFalse(target.exists());
 
-        FileUtils.copyRecursively(false, source, target);
+        FileUtils.copyRecursively(false, source.toURI(), target.toURI());
 
         Assert.assertTrue(Files.exists(new File(target, "example_test.md").toPath()));
         Assert.assertTrue(Files.exists(new File(target, "example_style.css").toPath()));
