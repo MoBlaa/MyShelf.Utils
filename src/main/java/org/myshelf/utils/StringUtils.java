@@ -2,6 +2,8 @@ package org.myshelf.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -45,5 +47,25 @@ public final class StringUtils {
             //Shouldn't occur as only writing to a String
         }
         return writer.toString();
+    }
+
+    /**
+     * Serializes a class to a properties file like String representation.
+     * @param item
+     * @return
+     */
+    public static String toPropertiesString(Object item) {
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        for (Field field : item.getClass().getFields()) {
+            field.setAccessible(true);
+            try {
+                map.put(field.getName(), field.get(item));
+            } catch (IllegalAccessException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+
+        return toPropertiesString(map);
     }
 }
