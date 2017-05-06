@@ -1,5 +1,10 @@
 package org.myshelf.utils;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Properties;
+
 /**
  * Utility class for manipulation of strings.
  *
@@ -23,5 +28,22 @@ public final class StringUtils {
         if (toRepeat == null || numberOfRepeats < 0)
             throw new IllegalArgumentException("Argument null or negative");
         return new String(new char[numberOfRepeats]).replace("\0",toRepeat);
+    }
+
+    /**
+     * Converts a map to a Property-File like String.
+     */
+    public static String toPropertiesString(Map<Object, Object> map) {
+        //Add all to Properties
+        Properties props = new Properties();
+        props.putAll(map);
+        //toString
+        StringWriter writer = new StringWriter();
+        try {
+            props.store(writer, "");
+        } catch (IOException ignored) {
+            //Shouldn't occur as only writing to a String
+        }
+        return writer.toString();
     }
 }
