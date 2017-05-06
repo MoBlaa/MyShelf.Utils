@@ -40,7 +40,7 @@ public final class StringUtils {
         //toString
         StringWriter writer = new StringWriter();
         try {
-            props.store(writer, "");
+            props.store(writer, null);
         } catch (IOException ignored) {
             //Shouldn't occur as only writing to a String
         }
