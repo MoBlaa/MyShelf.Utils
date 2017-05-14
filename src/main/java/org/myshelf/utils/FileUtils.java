@@ -8,10 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 /**
  * @author moblaa
@@ -87,14 +85,9 @@ public final class FileUtils {
         }
     }
 
-    public static void deleteRecursively(@NotNull File file) {
+    public static void deleteRecursively(@NotNull File file) throws IOException {
         if (file.isFile()) {
-            try {
-                Files.delete(file.toPath());
-                logger.debug("SUCCESS: Deleted file: <" + file.getAbsolutePath() + ">");
-            } catch (IOException e) {
-                logger.error("FAILURE: Couldn't delete file: <" + file.getAbsolutePath() + ">");
-            }
+            Files.delete(file.toPath());
         } else {
             File[] contents = file.listFiles();
             if (contents == null)
@@ -102,8 +95,7 @@ public final class FileUtils {
             for (File content : contents) {
                 FileUtils.deleteRecursively(content);
             }
-            if (!file.delete())
-                throw new IllegalArgumentException("Couldn't delete directory: <" + file.getAbsolutePath() + ">");
+            Files.delete(file.toPath());
         }
     }
 }
