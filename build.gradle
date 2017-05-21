@@ -1,7 +1,20 @@
 group 'org.myshelf'
 version '1.0-SNAPSHOT'
 
+buildscript {
+    ext {
+        kotlin_version = "1.1.2-2"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
@@ -22,6 +35,10 @@ buildscript {
 apply plugin: 'ch.raffael.pegdown-doclet'
 
 dependencies {
+    // ===== Kotlin =====
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
     compile 'org.slf4j:slf4j-simple:1.6.2'
     compile 'org.jetbrains:annotations:15.0'
     testCompile 'org.testng:testng:6.10'

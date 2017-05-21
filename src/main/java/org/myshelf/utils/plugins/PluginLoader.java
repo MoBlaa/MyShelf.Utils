@@ -76,7 +76,7 @@ public class PluginLoader {
                 return null;
             }
         });
-        //Loading services
+        //Loading plugins
         URLClassLoader classloader = new URLClassLoader(url.toArray(URL[]::new), getClass().getClassLoader());
         return ServiceLoader.load(pluginsToLoad, classloader);
     }

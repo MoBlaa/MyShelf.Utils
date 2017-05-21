@@ -1,11 +1,8 @@
 package org.myshelf.utils;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Utility class for manipulation of strings.
@@ -35,18 +32,14 @@ public final class StringUtils {
     /**
      * Converts a map to a Property-File like String.
      */
-    public static String toPropertiesString(Map<Object, Object> map) {
+    public static String toPropertiesString(Map<?, ?> map) {
         //Add all to Properties
-        Properties props = new Properties();
-        props.putAll(map);
         //toString
-        StringWriter writer = new StringWriter();
-        try {
-            props.store(writer, null);
-        } catch (IOException ignored) {
-            //Shouldn't occur as only writing to a String
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            builder.append(entry.getKey()).append("=").append(entry.getValue()).append(System.lineSeparator());
         }
-        return writer.toString();
+        return builder.toString();
     }
 
     /**
